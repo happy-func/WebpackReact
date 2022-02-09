@@ -5,12 +5,25 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const isDev = process.env.NODE_ENV === 'development';
 
 module.exports = {
+  mode: 'development',
   entry: {
-    app: './src/index.js',
+    main: './src/index.js',
   },
   output: {
-    filename: isDev ? 'js/main.js' : 'js/main.[hash:8].js',
-    path: path.resolve(__dirname, '../dist')
+    filename: isDev ? 'js/[name].js' : 'js/[name].[hash:8].js',
+    path: path.resolve(__dirname, '../dist'),
+    chunkFilename: isDev ? 'js/[id].js' : 'js/[id].[hash:8].js',
+  },
+  devServer: {
+    compress: false,
+    client: {
+      progress: true,
+      overlay: {
+        errors: true,
+        warnings: false,
+      },
+    },
+    hot: true,
   },
   plugins: [
     new CleanWebpackPlugin(),
